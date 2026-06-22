@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>انتخاب شاخص‌های کلیدی عملکرد — اسپورتلند</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Vazirmatn', sans-serif;
+  direction: rtl;
+  background: #0D0D0D;
+  color: #F0F0F0;
+  min-height: 100vh;
+  padding: 28px 20px;
+}
+.wrap { max-width: 680px; margin: 0 auto; }
+
+/* HOME */
+.hero { text-align: center; padding-top: 40px; }
+.badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 3px; color: #E63946; text-transform: uppercase; margin-bottom: 16px; }
+h1 { font-size: 30px; font-weight: 800; line-height: 1.3; margin-bottom: 12px; }
+h1 span { color: #F4A427; }
+.hero-sub { color: #888; font-size: 13px; margin-bottom: 28px; }
+.saved-banner { background: #1A1A1A; border: 1px solid #2A2A2A; border-radius: 10px; padding: 12px 16px; font-size: 12px; color: #aaa; margin-bottom: 20px; text-align: right; display: none; }
+.btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn-primary { background: #E63946; color: #fff; border: none; border-radius: 10px; padding: 14px 28px; font-family: 'Vazirmatn', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+.btn-primary:hover { background: #c0303b; }
+.btn-primary:disabled { background: #2A2A2A; color: #555; cursor: not-allowed; }
+.btn-secondary { background: transparent; color: #F4A427; border: 1px solid #F4A427; border-radius: 10px; padding: 14px 28px; font-family: 'Vazirmatn', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; display: none; }
+
+/* SELECT */
+.top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; padding-bottom: 16px; border-bottom: 1px solid #2A2A2A; }
+.back-btn { background: none; border: 1px solid #2A2A2A; color: #888; border-radius: 8px; padding: 8px 14px; font-family: 'Vazirmatn', sans-serif; font-size: 12px; cursor: pointer; }
+.counter-display { text-align: left; }
+.counter-num { color: #F4A427; font-size: 24px; font-weight: 800; }
+.counter-total { color: #666; font-size: 14px; }
+.cat-label { font-size: 10px; font-weight: 700; letter-spacing: 3px; color: #555; text-transform: uppercase; margin-bottom: 12px; margin-top: 28px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.kpi-card { background: #1A1A1A; border: 1px solid #2A2A2A; border-radius: 12px; padding: 18px; position: relative; cursor: pointer; transition: all 0.15s; border-right-width: 3px; }
+.kpi-card:hover { border-color: #3A3A3A; }
+.kpi-card.selected { background: #1E1A12; border-color: #F4A427; }
+.kpi-card.disabled { opacity: 0.35; cursor: not-allowed; }
+.check-badge { position: absolute; top: 12px; left: 14px; font-size: 10px; font-weight: 700; color: #F4A427; display: none; }
+.kpi-card.selected .check-badge { display: block; }
+.card-head { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 10px; }
+.kpi-icon { font-size: 22px; }
+.kpi-name { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+.kpi-en { font-size: 10px; color: #666; direction: ltr; text-align: right; }
+.kpi-desc { font-size: 11px; color: #777; line-height: 1.7; margin-bottom: 12px; }
+.tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.tag { font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 20px; background: #2A2A2A; color: #888; }
+.tag-freq { color: #4A90D9; background: rgba(74,144,217,0.1); }
+.tag-high { color: #E63946; background: rgba(230,57,70,0.12); }
+.tag-med { color: #F4A427; background: rgba(244,164,39,0.12); }
+.tag-low { color: #2DC653; background: rgba(45,198,83,0.1); }
+.submit-btn { display: block; width: 100%; margin-top: 24px; padding: 16px; background: #E63946; color: #fff; border: none; border-radius: 10px; font-family: 'Vazirmatn', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+.submit-btn:hover { background: #c0303b; }
+.submit-btn:disabled { background: #2A2A2A; color: #555; cursor: not-allowed; }
+.toast { margin-top: 16px; background: #1E1A12; border: 1px solid #F4A427; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #F4A427; text-align: center; display: none; }
+
+/* RESULT */
+.result-meta { color: #666; font-size: 12px; margin-bottom: 28px; }
+.result-card { display: flex; gap: 16px; background: #1A1A1A; border: 1px solid #2A2A2A; border-radius: 12px; padding: 20px; margin-bottom: 12px; }
+.result-num { font-size: 32px; font-weight: 800; line-height: 1; min-width: 32px; text-align: center; }
+.result-kpi-name { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.result-desc { font-size: 12px; color: #888; line-height: 1.7; }
+
+/* VIEWS */
+.view { display: none; }
+.view.active { display: block; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HOME -->
+  <div id="view-home" class="view active">
+    <div class="hero">
+      <div class="badge">اسپورتلند — مدیریت عملیات</div>
+      <h1>انتخاب شاخص‌های<br><span>کلیدی عملکرد</span></h1>
+      <p class="hero-sub">برای جلسات هفتگی مدیریت، ۳ شاخص اولویت‌دار انتخاب کنید</p>
+      <div class="saved-banner" id="saved-banner"></div>
+      <div class="btn-row">
+        <button class="btn-primary" onclick="goSelect()">شروع انتخاب ←</button>
+        <button class="btn-secondary" id="btn-result" onclick="goResult()">مشاهده‌ی نتیجه</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SELECT -->
+  <div id="view-select" class="view">
+    <div class="top-bar">
+      <button class="back-btn" onclick="goHome()">→ بازگشت</button>
+      <div class="counter-display">
+        <span class="counter-num" id="counter-num">0</span>
+        <span class="counter-total"> / ۳ انتخاب شده</span>
+      </div>
+    </div>
+    <div id="kpi-list"></div>
+    <button class="submit-btn" id="submit-btn" onclick="submitSelection()" disabled>۳ شاخص را انتخاب کنید</button>
+    <div class="toast" id="toast">✓ انتخاب شما ذخیره شد</div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="view-result" class="view">
+    <button class="back-btn" onclick="goHome()" style="margin-bottom:24px">→ بازگشت</button>
+    <div class="badge">نتیجه‌ی انتخاب</div>
+    <h1 style="font-size:22px;margin-bottom:8px">شاخص‌های منتخب</h1>
+    <div class="result-meta" id="result-date"></div>
+    <div id="result-list"></div>
+    <button class="btn-primary" style="width:100%;margin-top:16px" onclick="goSelect()">ویرایش انتخاب</button>
+  </div>
+
+</div>
+
+<script>
+const KPIs = [
+  { id:"conversion", name:"نرخ تبدیل فروش", en:"Conversion Rate", icon:"🎯", area:"فروشگاه + سایت", freq:"هفتگی", priority:"high", cat:"📊 فروش و درآمد", desc:"از هر ۱۰۰ نفر که وارد فروشگاه میشن، چند نفر خرید می‌کنن. پایین بودن این عدد یعنی مشکل در تجربه مشتری یا قیمت‌گذاری." },
+  { id:"aov", name:"میانگین ارزش سبد خرید", en:"Average Order Value", icon:"🛒", area:"همه شعب", freq:"هفتگی", priority:"high", cat:"📊 فروش و درآمد", desc:"هر مشتری به طور میانگین چقدر خرید می‌کنه. بالا رفتن این عدد یعنی تیم فروش داره درست Upsell انجام میده." },
+  { id:"branch_sales", name:"فروش به تفکیک شعبه", en:"Sales by Branch", icon:"🏪", area:"همه شعب", freq:"هفتگی", priority:"med", cat:"📊 فروش و درآمد", desc:"مقایسه‌ی عملکرد فروش شعب در کنار هم. سریع مشخص میکنه کدوم شعبه نیاز به توجه داره." },
+  { id:"oos", name:"نرخ موجودی ناموجود", en:"Out of Stock Rate", icon:"⚠️", area:"انبار آنلاین + آفلاین", freq:"هفتگی", priority:"high", cat:"📦 انبار و موجودی", desc:"چند درصد از محصولات پرفروش موجود نیستن. بالا بودن این عدد یعنی فروش از دست رفته." },
+  { id:"inv_acc", name:"دقت موجودی انبار", en:"Inventory Accuracy", icon:"🎯", area:"انبار مرکزی", freq:"ماهانه", priority:"med", cat:"📦 انبار و موجودی", desc:"اختلاف بین موجودی ثبت‌شده در سیستم و موجودی واقعی. نشون میده فرآیندهای انبارگردانی چقدر دقیقن." },
+  { id:"turnover", name:"نرخ گردش موجودی", en:"Inventory Turnover", icon:"🔄", area:"همه انبارها", freq:"ماهانه", priority:"med", cat:"📦 انبار و موجودی", desc:"هر محصول چند بار در ماه فروخته میشه. پایین بودن این عدد یعنی سرمایه خوابیده." },
+  { id:"fulfillment", name:"نرخ تکمیل سفارش آنلاین", en:"Order Fulfillment Rate", icon:"📱", area:"سایت + انبار آنلاین", freq:"هفتگی", priority:"high", cat:"💻 عملیات آنلاین", desc:"چند درصد از سفارشات آنلاین به موقع و کامل تحویل داده میشن." },
+  { id:"response", name:"میانگین زمان پاسخ کال سنتر", en:"First Response Time", icon:"📞", area:"کال سنتر", freq:"هفتگی", priority:"med", cat:"💻 عملیات آنلاین", desc:"کال سنتر چقدر طول میکشه تا به مشتری پاسخ بده. بالا بودن یعنی مشتری از دست میره." },
+  { id:"returns", name:"نرخ برگشت کالا", en:"Return Rate", icon:"↩️", area:"آنلاین + آفلاین", freq:"ماهانه", priority:"low", cat:"💻 عملیات آنلاین", desc:"چند درصد از محصولات فروخته‌شده برگشت داده میشن. هزینه‌ی پنهان بالایی داره." },
+  { id:"tasks", name:"نرخ تکمیل وظایف تیم", en:"Task Completion Rate", icon:"✅", area:"همه واحدها", freq:"هفتگی", priority:"high", cat:"👥 عملکرد تیم", desc:"چند درصد از وظایف تعریف‌شده به موقع انجام میشن. ضعف‌های عملیاتی رو سریع نشون میده." },
+  { id:"csat", name:"نرخ رضایت مشتری", en:"Customer Satisfaction", icon:"⭐", area:"همه کانال‌ها", freq:"هفتگی", priority:"med", cat:"👥 عملکرد تیم", desc:"میانگین امتیاز رضایت مشتریان در همه کانال‌ها. سلامت کلی تجربه مشتری رو نشون میده." },
+  { id:"attendance", name:"نرخ حضور و غیاب تیم", en:"Staff Attendance Rate", icon:"🧑‍💼", area:"همه شعب", freq:"هفتگی", priority:"low", cat:"👥 عملکرد تیم", desc:"درصد حضور به موقع کارکنان. غیاب بالا مستقیماً روی کیفیت خدمت‌رسانی تأثیر میذاره." },
+];
+
+const pColor = { high:"#E63946", med:"#F4A427", low:"#2DC653" };
+const pLabel = { high:"اولویت بالا", med:"اولویت متوسط", low:"اولویت پایه" };
+const pTag   = { high:"tag-high", med:"tag-med", low:"tag-low" };
+const STORE  = "sportland_kpi_v1";
+
+let selected = [];
+
+function getSaved() {
+  try { return JSON.parse(localStorage.getItem(STORE)) || null; } catch { return null; }
+}
+function setSaved(data) {
+  try { localStorage.setItem(STORE, JSON.stringify(data)); } catch {}
+}
+
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + id).classList.add('active');
+}
+
+function goHome() {
+  const saved = getSaved();
+  const banner = document.getElementById('saved-banner');
+  const btnResult = document.getElementById('btn-result');
+  if (saved) {
+    banner.style.display = 'block';
+    banner.innerHTML = '✓ آخرین انتخاب: ' + saved.date + ' — <strong>' + saved.names.join('، ') + '</strong>';
+    btnResult.style.display = 'inline-block';
+    document.querySelector('.btn-primary').textContent = 'ویرایش انتخاب ←';
+  }
+  showView('home');
+}
+
+function goSelect() {
+  const saved = getSaved();
+  selected = saved ? [...saved.ids] : [];
+  renderKPIs();
+  updateCounter();
+  document.getElementById('toast').style.display = 'none';
+  showView('select');
+}
+
+function goResult() {
+  const saved = getSaved();
+  if (!saved) return;
+  document.getElementById('result-date').textContent = 'تاریخ انتخاب: ' + saved.date;
+  const list = document.getElementById('result-list');
+  list.innerHTML = '';
+  saved.ids.forEach((id, i) => {
+    const kpi = KPIs.find(k => k.id === id);
+    if (!kpi) return;
+    list.innerHTML += `
+      <div class="result-card">
+        <div class="result-num" style="color:${pColor[kpi.priority]}">${i+1}</div>
+        <div style="flex:1">
+          <div class="result-kpi-name"><span>${kpi.icon}</span>${kpi.name}</div>
+          <div class="result-desc">${kpi.desc}</div>
+          <div class="tags" style="margin-top:10px">
+            <span class="tag">${kpi.area}</span>
+            <span class="tag tag-freq">${kpi.freq}</span>
+          </div>
+        </div>
+      </div>`;
+  });
+  showView('result');
+}
+
+function renderKPIs() {
+  const cats = [...new Set(KPIs.map(k => k.cat))];
+  const list = document.getElementById('kpi-list');
+  list.innerHTML = '';
+  cats.forEach(cat => {
+    list.innerHTML += `<div class="cat-label">${cat}</div><div class="grid" id="grid-${cat}"></div>`;
+    const grid = document.getElementById('grid-' + cat);
+    KPIs.filter(k => k.cat === cat).forEach(kpi => {
+      const isSel = selected.includes(kpi.id);
+      const isDis = !isSel && selected.length >= 3;
+      const card = document.createElement('div');
+      card.className = 'kpi-card' + (isSel ? ' selected' : '') + (isDis ? ' disabled' : '');
+      card.style.borderRightColor = pColor[kpi.priority];
+      card.id = 'card-' + kpi.id;
+      card.innerHTML = `
+        <div class="check-badge">✓ انتخاب شد</div>
+        <div class="card-head">
+          <div class="kpi-icon">${kpi.icon}</div>
+          <div>
+            <div class="kpi-name">${kpi.name}</div>
+            <div class="kpi-en">${kpi.en}</div>
+          </div>
+        </div>
+        <div class="kpi-desc">${kpi.desc}</div>
+        <div class="tags">
+          <span class="tag">${kpi.area}</span>
+          <span class="tag tag-freq">${kpi.freq}</span>
+          <span class="tag ${pTag[kpi.priority]}">${pLabel[kpi.priority]}</span>
+        </div>`;
+      if (!isDis) card.onclick = () => toggleCard(kpi.id);
+      grid.appendChild(card);
+    });
+  });
+}
+
+function toggleCard(id) {
+  if (selected.includes(id)) {
+    selected = selected.filter(s => s !== id);
+  } else {
+    if (selected.length >= 3) return;
+    selected.push(id);
+  }
+  renderKPIs();
+  updateCounter();
+}
+
+function updateCounter() {
+  document.getElementById('counter-num').textContent = selected.length;
+  const btn = document.getElementById('submit-btn');
+  if (selected.length === 3) {
+    btn.disabled = false;
+    btn.textContent = 'ثبت انتخاب ←';
+  } else {
+    btn.disabled = true;
+    btn.textContent = (3 - selected.length) + ' شاخص دیگر انتخاب کنید';
+  }
+}
+
+function submitSelection() {
+  const now = new Date();
+  const date = now.toLocaleDateString('fa-IR');
+  const payload = {
+    ids: selected,
+    names: selected.map(id => KPIs.find(k => k.id === id)?.name),
+    date
+  };
+  setSaved(payload);
+  const toast = document.getElementById('toast');
+  toast.style.display = 'block';
+  setTimeout(() => { goResult(); }, 1200);
+}
+
+// init
+goHome();
+</script>
+</body>
+</html>
